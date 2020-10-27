@@ -25,7 +25,8 @@ class MplCanvas(FigureCanvasQTAgg):
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
-        layout = QtWidgets.QVBoxLayout()      
+       
+        layout = QGridLayout()      
 
         sc = MplCanvas(self, width=5, height=4, dpi=100)
         sc.axes.plot([10,1,2,3,4], [0,1,20, 3,40])
@@ -46,12 +47,17 @@ class MainWindow(QtWidgets.QMainWindow):
         uploadButton = QPushButton('Upload', self)
         # uploadButton.clicked.connect(uploadClick) ##fix later
         btnLayout.addWidget(uploadButton)
-
+       
         combo = QComboBox()
         combo.addItems(['1/8"','1/2"','3/4"','1"'])
         btnLayout.addWidget(combo)
-        layout.addWidget(btnLayout)
-        layout.addWidget(sc)
+        
+        button_master = QWidget()
+        button_master.setLayout(btnLayout)
+        
+        layout.addWidget(button_master, 0, 4)
+        layout.addWidget(sc,1,4)
+
 
 if __name__ =='__main__':
     app = QtWidgets.QApplication(sys.argv)
