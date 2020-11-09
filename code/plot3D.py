@@ -29,4 +29,3 @@ class plot():
     ax.set_zlabel('Z inches')
 
     plt.show()
-p1 = plot()

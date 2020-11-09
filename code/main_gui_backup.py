@@ -30,7 +30,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         sc = MplCanvas(self, width=5, height=4, dpi=100)
         sc.axes.plot([10,1,2,3,4], [0,1,20, 3,40])
-        sc.move(50, 150)
 
     
         btnLayout = QHBoxLayout()
@@ -57,7 +56,9 @@ class MainWindow(QtWidgets.QMainWindow):
         
         layout.addWidget(button_master, 0, 4)
         layout.addWidget(sc,1,4)
-
+        layWidget = QWidget()
+        layWidget.setLayout(layout)
+        self.setCentralWidget(layWidget)
 
 if __name__ =='__main__':
     app = QtWidgets.QApplication(sys.argv)
