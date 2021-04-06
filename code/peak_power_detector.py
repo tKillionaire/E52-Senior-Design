@@ -23,6 +23,7 @@ PATH system environment variable
 ################################################################
 """
 os.chdir("C:\\Tektronix\\RSA_API\\lib\\x64")
+<<<<<<< HEAD
 ##rsa = cdll.LoadLibrary("RSA_API.dll")
 rsa = cdll.LoadLibrary("C:\\Tektronix\\RSA_API\\lib\\x64\\RSA_API.dll")
 
@@ -41,6 +42,26 @@ class Spectrum_Settings(Structure):
 	('actualFreqStepSize', c_double), 
 	('actualRBW', c_double),
 	('actualVBW', c_double), 
+=======
+rsa = cdll.LoadLibrary("C:\\Tektronix\\RSA_API\\lib\\x64\\RSA_API.dll")
+
+
+"""#################CLASSES AND FUNCTIONS#################"""
+#create Spectrum_Settings data structure
+class Spectrum_Settings(Structure):
+	_fields_ = [('span', c_double),
+	('rbw', c_double),
+	('enableVBW', c_bool),
+	('vbw', c_double),
+	('traceLength', c_int),
+	('window', c_int),
+	('verticalUnit', c_int), ##0 is dBm, 1 is Watt, 2 Volt, 3 amp
+	('actualStartFreq', c_double),
+	('actualStopFreq', c_double),
+	('actualFreqStepSize', c_double),
+	('actualRBW', c_double),
+	('actualVBW', c_double),
+>>>>>>> 6188c3d7f9215ccd8beae2374f5ec6a4a60484b0
 	('actualNumIQSamples', c_double)]
 
 class Spectrum_TraceInfo(Structure):
@@ -115,8 +136,12 @@ def main():
 	#main SA parameters
 	specSet = Spectrum_Settings()
 	enable = c_bool(True)         #spectrum enable
+<<<<<<< HEAD
 	cf = c_double(4.3e6)            #center freq
 	##cf = CONFIG_GetCenterFreq()
+=======
+	#cf = c_double(1e9)            #center freq
+>>>>>>> 6188c3d7f9215ccd8beae2374f5ec6a4a60484b0
 	refLevel = c_double(0)        #ref level
 	ready = c_bool(False)         #ready
 	timeoutMsec = c_int(100)      #timeout
@@ -134,8 +159,19 @@ def main():
 
 	"""#################CONFIGURE INSTRUMENT#################"""
 	rsa.CONFIG_Preset()
+<<<<<<< HEAD
 	rsa.CONFIG_SetCenterFreq(cf)
 	rsa.CONFIG_SetReferenceLevel(refLevel)
+=======
+	rsa.CONFIG_SetReferenceLevel(refLevel)
+	'''
+	for loop, x in zip(loops,cfs):
+		if userSelect = loop
+			cf = x
+	'''
+	cf = rsa.CONFIG_GetCenterFreq()
+	rsa.CONFIG_SetCenterFreq(cf) ##if this doesnt work make cf a function of loop input
+>>>>>>> 6188c3d7f9215ccd8beae2374f5ec6a4a60484b0
 	rsa.SPECTRUM_SetEnable(enable)
 	rsa.SPECTRUM_SetDefault()
 	rsa.SPECTRUM_GetSettings(byref(specSet))
@@ -143,6 +179,7 @@ def main():
 	#configure desired spectrum settings
 	#some fields are left blank because the default
 	#values set by SPECTRUM_SetDefault() are acceptable
+<<<<<<< HEAD
 	specSet.span = c_double(10e6)
 	specSet.rbw = c_double(3e6)
 	#specSet.enableVBW = 
@@ -152,6 +189,17 @@ def main():
 	#specSet.verticalUnit = 
 	specSet.actualStartFreq = c_double(3.9e6)
 	specSet.actualFreqStepSize = c_double(10e3)
+=======
+	specSet.span = c_double(500e3)
+	specSet.rbw = c_double(50e3)
+	#specSet.enableVBW = 
+	specSet.vbw = c_douuble(50e3)
+	specSet.traceLength = c_int(801)
+	#specSet.window = 
+	#specSet.verticalUnit = 
+	#specSet.actualStartFreq = 
+	#specSet.actualFreqStepSize = 
+>>>>>>> 6188c3d7f9215ccd8beae2374f5ec6a4a60484b0
 	#specSet.actualRBW = 
 	#specSet.actualVBW = 
 	#specSet.actualNumIQSamples = 
@@ -205,7 +253,11 @@ def main():
 	"""#################SPECTRUM PLOT#################"""
 	#plot the spectrum trace (optional)
 	plt.figure(1)
+<<<<<<< HEAD
 	plt.subplot(111, facecolor='k')
+=======
+	plt.subplot(111, axisbg='k')
+>>>>>>> 6188c3d7f9215ccd8beae2374f5ec6a4a60484b0
 	plt.plot(freq, traceData, 'y')
 	plt.xlabel('Frequency (Hz)')
 	plt.ylabel('Amplitude (dBm)')
@@ -213,6 +265,7 @@ def main():
 	
 	#annotate measurement
 	plt.axvline(x=peakPowerFreq)
+<<<<<<< HEAD
 	text_x = specSet.actualStartFreq + specSet.span/20
 	plt.text(text_x, peakPower, 
 		'Peak power in spectrum: %4.3f dBm @ %5.4f MHz' % (peakPower, 
@@ -229,6 +282,22 @@ def main():
 	plt.show()
 	
 	print('Disconnecting.')
+=======
+	text_x = specSet.actualStartFreq + specSet.span/20 ##what is this
+	plt.text(text_x, peakPower, 
+		'Peak power in spectrum: %4.3f dBm @ %5.4f MHz' % (peakPower, 
+			peakPowerFreq/1e6), color='white') #BONUS clean up plot axes
+	xmin = np.amin(freq)
+    xmax = np.aamax(freq)
+	plt.xlim(xmin,xmax)
+	ymin = np.amin(trace)-10  ##why 10
+    ymax = np.amax(trace)+10
+    plt.ylim(ymin,ymax)
+
+    plt.show()
+	
+    print('Disconnecting.')
+>>>>>>> 6188c3d7f9215ccd8beae2374f5ec6a4a60484b0
 	rsa.DEVICE_Disconnect()
 
 if __name__ == "__main__":
